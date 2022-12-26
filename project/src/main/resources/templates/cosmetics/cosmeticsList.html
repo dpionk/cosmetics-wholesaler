@@ -11,13 +11,13 @@
     <div class="page-title">
         COSMETICS
     </div>
+    <a href="/cosmetics/add"/>
+    Add new cosmetic
+    <a>
     <div class="cosmetics-list">
         <div class="list-group">
-            <a th:each="cosmetic: ${cosmetics}" href="cosmetics/${cosmetic.getId()}" class="list-group-item list-group-item-action active">
-                Cras justo odio
-            </a>
+            <a th:each="cosmetic: ${cosmetics}" th:href="@{'/cosmetics/' + ${cosmetic.getId()}}" class="list-group-item list-group-item-action active" th:text="${cosmetic.getName()}"/>
         </div>
-
     </div>
 </div>
 

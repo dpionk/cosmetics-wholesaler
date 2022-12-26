@@ -12,7 +12,7 @@ public class Cosmetic {
     @Column(name = "cosmetic_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "cosmetic_name")
     @NotNull(message = "Name is required")
@@ -23,21 +23,27 @@ public class Cosmetic {
     @NotNull(message = "Price is required")
     private Float price;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cosmetic_categories",
-            joinColumns = @JoinColumn(name = "cosmetic_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    Set<Category> categories;
+    @ManyToOne
+    Category category;
 
-    public Cosmetic(String id, String name, Float price) {
-        this.id = id;
+    @ManyToMany(mappedBy = "cosmeticsInCart")
+    Set<Cart> carts;
+
+    public Cosmetic(String name, Float price) {
         this.name = name;
         this.price = price;
     }
 
-    public String getId() {
+    public Cosmetic(String name, Float price, Category category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
+
+
+    public Cosmetic() { }
+
+    public Long getId() {
         return id;
     }
 

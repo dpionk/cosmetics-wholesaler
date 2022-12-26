@@ -12,13 +12,14 @@ public class Category {
     @Column(name = "category_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "category_name")
     @NotNull(message = "Name is required")
     @Size(min = 2)
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    Set<Cosmetic> cosmetics;
+    @OneToMany(mappedBy = "category")
+    Set<Cosmetic> cosmeticsWithCategory;
+
 }

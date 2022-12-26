@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cosmetic</title>
+    <title th:text="${cosmetic.getName()}"></title>
+    <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
+<div th:replace="partials/navbar"></div>
+<div class="cosmetics">
+    <div class="page-title">
+        COSMETIC
+    </div>
+    <div th:text="${cosmetic.getName()}">
 
+    </div>
+    <div th:text="${cosmetic.getPrice()}">
+
+    </div>
+    <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}">
+        Edit
+    </a>
+</div>
+
+<th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>

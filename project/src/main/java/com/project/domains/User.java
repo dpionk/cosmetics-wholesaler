@@ -7,12 +7,13 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class
+User {
 
     @Column(name = "user_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "user_username")
     @NotNull(message = "Username is required")
