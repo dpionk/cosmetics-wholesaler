@@ -1,0 +1,108 @@
+/* COSMETICS LIST */
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+a {
+    color: black
+}
+a:hover {
+    color: black;
+}
+
+a:link {
+    color: black;
+}
+
+full-width {
+    width:100%;
+}
+.info {
+    display:flex;
+    gap: 2em;
+    align-items: center;
+}
+
+.cosmetics {
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-title {
+    font-size: large;
+    font-weight: bold;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-group {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+}
+
+.list-group-item {
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+    width:50%;
+    font-size: large;
+}
+
+/* FORM */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+form {
+    width: 50%;
+}
+
+/* ADMINISTRATION */
+
+.administration {
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.administration-panel {
+    width: 60%;
+}
+
+/* CATEGORIES */
+
+.edit-delete {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.options {
+    display:flex;
+    gap:10px;
+}
+
+/* NAVBAR */
+
+.navbar-nav {
+    display:flex;
+    justify-content: space-between;
+}

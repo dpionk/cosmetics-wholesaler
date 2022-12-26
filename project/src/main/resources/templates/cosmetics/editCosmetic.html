@@ -7,6 +7,10 @@
 </head>
 <body>
 <div th:replace="partials/navbar"></div>
+<div class="form-container">
+<div class="page-title">
+    EDIT COSMETIC
+</div>
 <form method="PUT" th:action="@{'/cosmetics/' + ${cosmetic.getId()}}" th:object="${cosmetic}">
     <div th:if="${#fields.hasErrors()}">
   <span class="validationError">
@@ -37,6 +41,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit changes</button>
 </form>
+</div>
 <th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>

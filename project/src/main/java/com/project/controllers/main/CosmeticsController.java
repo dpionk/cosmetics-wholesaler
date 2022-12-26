@@ -1,6 +1,8 @@
 package com.project.controllers.main;
 
+import com.project.domains.Category;
 import com.project.domains.Cosmetic;
+import com.project.repositories.CategoryRepository;
 import com.project.repositories.CosmeticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,9 @@ import javax.validation.Valid;
 
 @Controller
 public class CosmeticsController {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private CosmeticRepository cosmeticRepository;
@@ -49,6 +54,7 @@ public class CosmeticsController {
     @GetMapping("/cosmetics/add")
     public String cosmeticAddPage(Model model) {
         Cosmetic cosmetic = new Cosmetic();
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("cosmetic", cosmetic);
         return "/cosmetics/addCosmetic";
     }

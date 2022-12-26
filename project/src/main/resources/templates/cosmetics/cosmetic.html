@@ -8,18 +8,16 @@
 <body>
 <div th:replace="partials/navbar"></div>
 <div class="cosmetics">
-    <div class="page-title">
-        COSMETIC
-    </div>
-    <div th:text="${cosmetic.getName()}">
-
-    </div>
+    <div class="page-title" th:text="${cosmetic.getName()}"/>
+    <div class="price-info">
+        PRICE:
     <div th:text="${cosmetic.getPrice()}">
-
+    </div>
     </div>
     <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}">
         Edit
     </a>
+    <button class="btn">Add To Cart 🛒</button>
 </div>
 
 <th:block th:replace="partials/script-links"></th:block>

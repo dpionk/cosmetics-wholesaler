@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration Panel</title>
+    <th:block th:replace="partials/css-links"></th:block>
+    <link rel="stylesheet" href="../static/css/cosmetics-wholesaler.css">
+</head>
+<body>
+<div th:replace="partials/navbar"></div>
+<div class="administration">
+<div class="page-title">
+    ADMINISTRATION PANEL
+</div>
+    <div class="administration-panel">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">
+                    Cosmetics
+                </th>
+                <th scope="col">
+                    Categories
+                </th>
+                <th scope="col">
+                    Users
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="/cosmetics">View Cosmetics</a></td>
+                <td><a href="/categories">View Categories</a></td>
+                <td><a href="/users">View Users</a></td>
+            </tr>
+            <tr>
+                <td><a href="/cosmetics/add">Add new cosmetic</a></td>
+                <td><a href="/categories/add">Add new category</a></td>
+                <td><a href="/users/add">Add new users</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<th:block th:replace="partials/script-links"></th:block>
+</body>
+</html>
