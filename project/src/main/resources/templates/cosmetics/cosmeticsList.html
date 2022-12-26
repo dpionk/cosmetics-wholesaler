@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cosmetics</title>
+    <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
+<div th:replace="partials/navbar"></div>
+<div class="cosmetics">
+    <div class="page-title">
+        COSMETICS
+    </div>
+    <div class="cosmetics-list">
+        <div class="list-group">
+            <a th:each="cosmetic: ${cosmetics}" href="cosmetics/${cosmetic.getId()}" class="list-group-item list-group-item-action active">
+                Cras justo odio
+            </a>
+        </div>
 
+    </div>
+</div>
+
+<th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>

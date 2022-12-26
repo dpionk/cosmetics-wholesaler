@@ -1,4 +1,4 @@
-package com.project.domain;
+package com.project.domains;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertFalse;

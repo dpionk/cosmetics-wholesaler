@@ -1,8 +1,9 @@
-package com.project.domain;
+package com.project.domains;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -17,4 +18,7 @@ public class Category {
     @NotNull(message = "Name is required")
     @Size(min = 2)
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    Set<Cosmetic> cosmetics;
 }
