@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Category</title>
+    <title>Add new category</title>
+    <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
-
+<div th:replace="partials/navbar"></div>
+<div class="form-container">
+    <div class="page-title">
+        EDIT CATEGORY
+    </div>
+    <form action="#" th:method="put" th:action="@{'/categories/' + ${category.getId()}}" th:object="${category}">
+        <div th:if="${#fields.hasErrors()}">
+  <span class="validationError">
+   Form errors
+  </span>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" class="form-control"/>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('name')}"
+                  th:errors="*{name}">
+            </span>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit changes"></input>
+    </form>
+</div>
+<th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>

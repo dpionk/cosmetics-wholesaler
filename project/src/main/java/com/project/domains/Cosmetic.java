@@ -14,6 +14,9 @@ public class Cosmetic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "image_url")
+    private String image_url;
+
     @Column(name = "cosmetic_name")
     @NotNull(message = "Name is required")
     @Size(min = 2)
@@ -40,6 +43,12 @@ public class Cosmetic {
         this.category = category;
     }
 
+    public Cosmetic(String image_url, String name, Float price, Category category) {
+        this.image_url = image_url;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
 
     public Cosmetic() { }
 
@@ -70,4 +79,18 @@ public class Cosmetic {
     public void setCategory(Category category) {
         this.category = category;
     }
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public void deleteCartfromSet(Cart car) {
+        if (this.carts.contains(car)) {
+            this.carts.remove(car);
+        }
+    }
+
 }

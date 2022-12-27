@@ -6,7 +6,9 @@
     <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
+<div th:replace="partials/alerts"></div>
 <div th:replace="partials/navbar"></div>
+
 <div class="form-container">
     <div class="page-title">
         ADD NEW COSMETIC
@@ -16,6 +18,14 @@
   <span class="validationError">
    Błędy formularza.
   </span>
+        </div>
+        <div class="form-group">
+            <label for="image_url">Image URL (optional)</label>
+            <input type="text" th:field="*{image_url}" class="form-control"/>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('image_url')}"
+                  th:errors="*{image_url}">
+            </span>
         </div>
         <div class="form-group">
             <label for="name">Name</label>
@@ -34,8 +44,9 @@
         </span>
         </div>
         <div class="form-group">
-        <label for="category">Category (not required)</label>
-        <select class="custom-select" id="inputGroupSelect01">
+        <label for="category">Category</label>
+        <select class="custom-select" id="inputGroupSelect01" th:field="*{category}">
+            <option value="" label="--Categories--"/>
             <option th:each="category : ${categories}" th:text="${category.getName()}" th:value="${category.getId()}"/>
         </select>
         </div>

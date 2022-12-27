@@ -2,6 +2,7 @@ package com.project.controllers.main;
 
 import com.project.domains.Category;
 import com.project.domains.Cosmetic;
+import com.project.exception.ResourceNotFoundException;
 import com.project.repositories.CategoryRepository;
 import com.project.repositories.CosmeticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,13 @@ public class CosmeticsController {
     }
 
     @PostMapping("/cosmetics")
-    public String addCosmetic(Cosmetic cosmetic, RedirectAttributes redirectAttributes) {
+    public String addCosmetic(@Valid Cosmetic cosmetic, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Not valid data passed when trying to add new cosmetic! Try again.");
+            return "cosmetics/add";
+        }
+
         cosmeticRepository.save(cosmetic);
         redirectAttributes.addFlashAttribute("success", "Succesfully added new cosmetic");
 
@@ -39,16 +46,45 @@ public class CosmeticsController {
 
     @GetMapping("/cosmetics/{id}")
     public String cosmeticDetailsPage(@PathVariable Long id, Model model) {
-        Cosmetic cosmetic = cosmeticRepository.findById(id).get();
-        model.addAttribute("cosmetic", cosmetic);
+        var cosmetic = cosmeticRepository.findById(id);
+
+        if (cosmetic.isPresent()) {
+            model.addAttribute("cosmetic", cosmetic.get());
+        } else {
+            throw new ResourceNotFoundException("cosmetic", "cosmeticId", id);
+        }
         return "/cosmetics/cosmetic";
     }
 
     @GetMapping("/cosmetics/{id}/edit")
     public String cosmeticEditDetailsPage(@PathVariable Long id, Model model) {
-        Cosmetic cosmetic = cosmeticRepository.findById(id).get();
+        var cosmetic = cosmeticRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("cosmetic", "cosmeticId", id));
         model.addAttribute("cosmetic", cosmetic);
+        model.addAttribute("categories", categoryRepository.findAll());
         return "/cosmetics/editCosmetic";
+    }
+
+    @PostMapping("/cosmetics/{id}")
+    public String updateCosmetic(@PathVariable Long id, @Valid Cosmetic cosmetic, BindingResult result,
+                             RedirectAttributes redirectAttributes) {
+        var cosmeticById = cosmeticRepository.findById(id);
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", "Invalid data passed for updating cosmetic object.");
+        } else if (cosmeticById.isPresent()) {
+
+            var cosmeticToUpdate = cosmeticById.get();
+            copyCosmeticData(cosmeticToUpdate, cosmetic);
+            cosmeticRepository.save(cosmeticToUpdate);
+
+            redirectAttributes.addFlashAttribute("success",
+                    String.format("Successfully updated data for cosmetic with ID %d!", id));
+        } else {
+            redirectAttributes.addFlashAttribute("error",
+                    String.format("Couldn't retrieve cosmetic with ID %s", id));
+        }
+        return "redirect:/cosmetics/" + id;
     }
 
     @GetMapping("/cosmetics/add")
@@ -59,14 +95,25 @@ public class CosmeticsController {
         return "/cosmetics/addCosmetic";
     }
 
-    @DeleteMapping("/cosmetics/{id}")
-        public String  deleteCosmetic(@PathVariable Long id) {
+    @GetMapping("/cosmetics/{id}/delete")
+        public String  deleteCosmetic(@PathVariable Long id, RedirectAttributes redirectAttributes) {
             var cosmetic = cosmeticRepository.findById(id);
             if (cosmetic.isPresent()) {
                 cosmeticRepository.delete(cosmetic.get());
-
-                return "redirect:/cosmetics";
+                redirectAttributes.addFlashAttribute("success", String.format(
+                        "Cosmetic with ID %d has been successfully deleted.",
+                        cosmetic.get().getId()));
+            } else {
+                redirectAttributes.addFlashAttribute("error", String.format("Couldn't delete cosmetic with ID %d",
+                        cosmetic.get().getId()));
             }
-            return "/";
+            return "redirect:/cosmetics";
+    }
+
+    private void copyCosmeticData(Cosmetic cosmeticFrom, Cosmetic cosmeticTo) {
+        cosmeticFrom.setName(cosmeticTo.getName());
+        cosmeticFrom.setPrice(cosmeticTo.getPrice());
+        cosmeticFrom.setCategory(cosmeticTo.getCategory());
+        cosmeticFrom.setImage_url(cosmeticTo.getImage_url());
     }
 }
