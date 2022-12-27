@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit User</title>
+    <title>Add new user</title>
     <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
@@ -11,9 +11,9 @@
 
 <div class="form-container">
     <div class="page-title">
-        EDIT USER
+        ADD NEW USER
     </div>
-    <form action="#" th:method="put" th:action="@{'/users/' + ${user.getId()}}" th:object="${user}">
+    <form method="POST" th:action="@{/users}" th:object="${user}">
         <div th:if="${#fields.hasErrors()}">
   <span class="validationError">
    Form errors
@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" th:field="*{username}" class="form-control" th:value="${user.getUsername()}">
+            <input type="text" th:field="*{username}" class="form-control"/>
             <span class="validationError"
                   th:if="${#fields.hasErrors('username')}"
                   th:errors="*{username}">
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" th:field="*{password}" class="form-control" th:value="${user.getPassword()}"/>
+            <input type="password" th:field="*{password}" class="form-control"/>
             <span class="validationError"
                   th:if="${#fields.hasErrors('password')}"
                   th:errors="*{password}">
@@ -37,12 +37,12 @@
         </div>
         <div class="form-group">
             <label for="is_admin">Admin</label>
-            <select class="custom-select" id="inputGroupSelect01" th:field="*{is_admin}" th:value="${user.getIs_admin()}">
+            <select class="custom-select" id="inputGroupSelect01" th:field="*{is_admin}">
                 <option th:text="yes" th:value="${true}"/>
                 <option th:text="no" th:value="${false}"/>
             </select>
         </div>
-        <input type="submit" class="btn btn-primary" value="Submit changes"></input>
+        <button type="submit" class="btn btn-primary">Add user</button>
     </form>
 </div>
 <th:block th:replace="partials/script-links"></th:block>

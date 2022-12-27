@@ -1,7 +1,6 @@
 package com.project.domains;
 
 import javax.persistence.*;
-import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,35 +9,30 @@ import javax.validation.constraints.Size;
 public class
 User {
 
-    @Column(name = "user_id")
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_username")
+    @Column(name = "username")
     @NotNull(message = "Username is required")
     @Size(min = 2)
     private String username;
 
-    @Column(name = "user_password")
+    @Column(name = "password")
     @NotNull(message = "Password is required")
     @Size(min = 8)
     private String password;
 
-    @Column(name = "user_is_admin")
+    @Column(name = "is_admin")
     @NotNull
-    @AssertFalse
-    private Boolean isAdmin;
+    private Boolean is_admin = false;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    @NotNull(message = "Reference to cart_id is required")
-    private Cart cart;
 
     public User(String username, String password, Boolean isAdmin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.is_admin = isAdmin;
     }
 
     public User() {};
@@ -67,19 +61,12 @@ User {
         this.password = password;
     }
 
-    public Boolean getAdmin() {
-        return isAdmin;
+    public Boolean getIs_admin() {
+        return is_admin;
     }
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+    public void setIs_admin(Boolean admin) {
+        is_admin = admin;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 }

@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
-public class UserController {
+public class UsersController {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,11 +29,6 @@ public class UserController {
     public String usersListPage(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "/users/usersList";
-    }
-
-    @GetMapping("/users/{id}")
-    public String userDetailsPage() {
-        return "/users/user";
     }
 
 
@@ -57,9 +51,9 @@ public class UserController {
         }
 
         userRepository.save(user);
-        redirectAttributes.addFlashAttribute("success", "Successfully added new library user with cart id " + user.getCart());
+        redirectAttributes.addFlashAttribute("success", "Successfully added new user");
 
-        return "redirect:/users/" + user.getId();
+        return "redirect:/users/";
     }
 
 
@@ -69,38 +63,38 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID:" + id));
 
         model.addAttribute("user", user);
-        return "user/editUser";
+        return "users/editUser";
     }
 
-    @PutMapping("/users/{id}")
+    @PostMapping("/users/{id}")
     public String updateUser(@PathVariable long id, @Valid User user, RedirectAttributes redirectAttrs) {
         var userToUpdate = userRepository.findById(id);
 
         if (userToUpdate.isPresent()) {
             userToUpdate.get().setUsername(user.getUsername());
             userToUpdate.get().setPassword(user.getPassword());
-            userToUpdate.get().setAdmin(user.getAdmin());
+            userToUpdate.get().setIs_admin(user.getIs_admin());
 
             userRepository.save(userToUpdate.get());
             redirectAttrs.addFlashAttribute("success", String.format("Successfully updated data for user with ID %d!", id));
         } else {
             redirectAttrs.addFlashAttribute("error", String.format("Couldn't find user with ID %s !", id));
         }
-        return "redirect:/users/" + id;
+        return "redirect:/users/";
     }
 
-    @GetMapping("/delete/users/{id}")
+    @GetMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable long id, RedirectAttributes redirectAttrs) {
         var user = userRepository.findById(id);
 
         if (user.isPresent()) {
-            Cart userCart = cartRepository.findCartByUser(user.get()).get(0);
-            cartRepository.delete(userCart);
+//            Cart userCart = cartRepository.findCartByUser(user.get()).get(0);
+//            cartRepository.delete(userCart);
             userRepository.delete(user.get());
 
             redirectAttrs.addFlashAttribute("success", String.format("Successfully deleted user with ID %d!", id));
         } else {
-            redirectAttrs.addFlashAttribute("error", String.format("Couldn't find library user with ID %d, so it cannot be deleted!", id));
+            redirectAttrs.addFlashAttribute("error", String.format("Couldn't find user with ID %d, so it cannot be deleted!", id));
         }
         return "redirect:/users";
     }

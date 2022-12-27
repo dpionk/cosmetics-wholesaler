@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
+    <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
+<div th:replace="partials/alerts"></div>
+<div th:replace="partials/navbar"/>
+<div class="cosmetics">
+    <div class="page-title">
+        USERS
+    </div>
+    <div class="list-group">
+        <div th:each="user: ${users}" class="list-group-item edit-delete">
+            <div th:text="${user.getUsername()}"/>
+            <div class="options">
+                <a th:href="@{'/users/' + ${user.getId()} + '/edit'}">🖊️</a>
+                <a th:href="@{'/users/' + ${user.getId()} + '/delete'}">🗑️️</a>
+            </div>
+            </a>
+        </div>
 
+    </div>
+</div>
+
+<th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>
