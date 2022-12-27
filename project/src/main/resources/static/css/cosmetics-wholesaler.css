@@ -7,15 +7,23 @@
     sans-serif;
 }
 
+.btn {
+    background-color: #579BB1;
+}
+body {
+    background-color: rgb(248, 244, 234);
+}
+
+
 a {
-    color: black
+    color:gray;
 }
 a:hover {
-    color: black;
+    color: gray;
 }
 
 a:link {
-    color: black;
+    color: gray;
 }
 
 full-width {
@@ -36,12 +44,13 @@ full-width {
 }
 
 .page-title {
-    font-size: large;
+    font-size: xx-large;
     font-weight: bold;
     width:100%;
     display:flex;
     justify-content: center;
     align-items: center;
+    color:gray;
 }
 
 .list-group {
@@ -54,11 +63,14 @@ full-width {
 }
 
 .list-group-item {
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding:10px;
+    padding:20px;
     width:50%;
     font-size: large;
+    background-color: #ECE8DD;
+    color: #579BB1;
 }
 
 /* COSMETIC */
@@ -66,6 +78,13 @@ full-width {
 img {
     width: 300px;
     height: 300px;
+}
+
+.cosmetic-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
 }
 
 .cosmetic-info {
@@ -126,6 +145,10 @@ form {
     width: 60%;
 }
 
+th {
+    color: #579BB1;
+}
+
 /* CATEGORIES */
 
 .edit-delete {
@@ -142,6 +165,7 @@ form {
 /* NAVBAR */
 
 .navbar-nav {
+
     display:flex;
     justify-content: space-between;
 }

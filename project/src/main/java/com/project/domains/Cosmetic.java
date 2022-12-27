@@ -26,6 +26,7 @@ public class Cosmetic {
     @NotNull(message = "Price is required")
     private Float price;
 
+
     @ManyToOne
     Category category;
 

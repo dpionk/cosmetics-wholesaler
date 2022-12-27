@@ -25,6 +25,7 @@ public class UsersController {
     @Autowired
     private CartRepository cartRepository;
 
+
     @GetMapping("/users")
     public String usersListPage(Model model) {
         model.addAttribute("users", userRepository.findAll());
@@ -40,6 +41,7 @@ public class UsersController {
     }
     @PostMapping("/users")
     public String addUser(@Valid User user, BindingResult result, RedirectAttributes redirectAttributes) {
+
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Not valid data passed when trying to add new user! Try again.");
             return "users/addUser";

@@ -48,7 +48,7 @@
             <option th:each="category : ${categories}" th:text="${category.getName()}" th:value="${category.getId()}"/>
         </select>
     </div>
-    <input type="submit" class="btn btn-primary" value="Submit changes"></input>
+    <input type="submit" class="btn" value="Submit changes"></input>
 </form>
 </div>
 <th:block th:replace="partials/script-links"></th:block>

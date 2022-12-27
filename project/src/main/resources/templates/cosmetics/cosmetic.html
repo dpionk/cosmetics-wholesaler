@@ -8,19 +8,25 @@
 <body>
 <div th:replace="partials/alerts"></div>
 <div th:replace="partials/navbar"></div>
-<div class="page-title" th:text="${cosmetic.getName()}"/>
+<div class="cosmetic-container">
+<div class="page-title text-secondary" th:text="${cosmetic.getName()}"/>
 <div class="cosmetic-info">
         <img th:if="${cosmetic.getImage_url() != ''}" th:src="${cosmetic.getImage_url()}"/>
         <img th:if="${cosmetic.getImage_url() == ''}" src="https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg"/>
             <div class="list-group-item cosmetic">
                 <div class="price-info">
-                <div class="price"><div class="page-title" > PRICE</div>
+                    <div class="price">
+                        <div class="text-secondary">CATEGORY</div>
+                        <div th:if="${cosmetic.getCategory() != null}" th:text="${cosmetic.getCategory().getName()}"/>
+                        <div th:if="${cosmetic.getCategory() == null}">No category added</div>
+                    </div>
+                <div class="price"><div class="text-secondary" > PRICE</div>
             <div th:text="${cosmetic.getPrice() + 'zł'}">
             </div>
             </div>
                 <div class="buttons">
-                    <div class="page-title">ACTIONS</div>
-            <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}">
+                    <div class="price text-secondary">ACTIONS</div>
+            <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}"/>
                 🖊️
             <a>+🛒</a>
                 <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/delete'}">🗑️</a>
@@ -28,7 +34,7 @@
             </div>
             </div>
 </div>
-
+</div>
 <th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>
