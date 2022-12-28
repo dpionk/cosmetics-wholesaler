@@ -10,10 +10,12 @@
 <div class="page-title">
     HOME PAGE
 </div>
+<div class="cosmetics">
 <div th:text="'Welcome ' + ${username} + '!'"/>
 <a th:if="${isAdmin}" href="/administration">
     Go to administration panel
 </a>
+</div>
 <th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>

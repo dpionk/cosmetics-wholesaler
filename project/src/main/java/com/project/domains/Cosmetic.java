@@ -97,4 +97,9 @@ public class Cosmetic {
         }
     }
 
+    public void addCartToSet(Cart cart) {
+        this.carts.add(cart);
+        System.out.println(this.carts);
+    }
+
 }

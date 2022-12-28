@@ -90,8 +90,8 @@ public class UsersController {
         var user = userRepository.findById(id);
 
         if (user.isPresent()) {
-//            Cart userCart = cartRepository.findCartByUser(user.get()).get(0);
-//            cartRepository.delete(userCart);
+            Cart userCart = cartRepository.findCartByUser(user.get()).get(0);
+            cartRepository.delete(userCart);
             userRepository.delete(user.get());
 
             redirectAttrs.addFlashAttribute("success", String.format("Successfully deleted user with ID %d!", id));

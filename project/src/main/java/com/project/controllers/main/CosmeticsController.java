@@ -1,9 +1,11 @@
 package com.project.controllers.main;
 
+import com.project.domains.Cart;
 import com.project.domains.Category;
 import com.project.domains.Cosmetic;
 import com.project.domains.User;
 import com.project.exception.ResourceNotFoundException;
+import com.project.repositories.CartRepository;
 import com.project.repositories.CategoryRepository;
 import com.project.repositories.CosmeticRepository;
 import com.project.repositories.UserRepository;
@@ -19,6 +21,9 @@ import javax.validation.Valid;
 
 @Controller
 public class CosmeticsController {
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -58,6 +63,17 @@ public class CosmeticsController {
         User currentUser = userRepository.getAllUsersWithUsername(currentUserUserName).get(0);
 
         var cosmetic = cosmeticRepository.findById(id);
+
+        var cart = cartRepository.findCartByUser(currentUser);
+
+        if (cart.size() != 0) {
+            model.addAttribute("cart", cart.get(0));
+            model.addAttribute("doesCartExist", true);
+        } else {
+            Cart newCart = new Cart();
+            model.addAttribute("cart", newCart);
+            model.addAttribute("doesCartExist", false);
+        }
 
         if (cosmetic.isPresent()) {
             model.addAttribute("cosmetic", cosmetic.get());

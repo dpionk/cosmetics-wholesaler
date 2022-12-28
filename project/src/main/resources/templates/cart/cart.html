@@ -11,32 +11,44 @@
 <div class="cosmetics">
     <div class="page-title">
         YOUR CART
+        <a th:href="@{'/cart/' + ${cart.getId()} + '/delete'}">🗑️</a>
     </div>
-    <div th:if="${!doesCartExist}">
-        You didn't initialize your cart yet. If you want to do it,
+    <div th:if="${!doesCartExist}" class="initialize-cart">
         <form  method="POST" th:action="'/createCart/' + ${currentUser.getId()}" th:object="${cart}">
             <select style="display:none" th:field="*{user}">
                 <option  th:value="${currentUser.getId()}"/>
             </select>
-            <input type="submit" value="click here"/>
+            <input type="submit" value="Initialize your cart here" style="background: none; border:none;"/>
         </form>
     </div >
     <div class="list-group" th:if="${doesCartExist}">
         <div th:each="cosmetic: ${productsInCart}"  class="list-group-item edit-delete" >
-            <a  th:text="${cosmetic.getName()}"  th:href="@{'/cosmetics/' + ${cosmetic.getId()}}"/>
+            <a  th:text="${cosmetic.key.getName()}"  th:href="@{'/cosmetics/' + ${cosmetic.key.getId()}}"/>
             <div class="info">
-                <div th:text="${cosmetic.getPrice()} + ' zł'">
+                <div th:text="${cosmetic.key.getPrice()} + ' zł'">
                 </div>
-                <button class="btn">🗑️</button>
+                <div class="add-delete-product">
+                    <form th:if="${doesCartExist}" action="#" th:action="@{'/cart/deleteCosmeticFromCart/' +   ${cosmetic.key.getId()}}" th:method="post">
+                        <input type="submit" value="-" style="background: none; border:none;"/>
+                    </form>
+                    <div th:text="${cosmetic.value}"/>
+                    <form th:if="${doesCartExist}" action="#" th:action="@{'/cart/add/' + ${cosmetic.key.getId()}}" th:method="post">
+                        <input type="submit" value="+" style="background: none; border:none;"/>
+                    </form>
+                </div>
+                <div th:text=" ${cosmetic.value} * ${cosmetic.key.getPrice()} + 'zł'"/>
             </div>
         </div>
-        <div th:if="${productsInCart.size() > 0}">
-            TOTAL
+    </div>
+        <div  class="list-group-item total" th:if="${productsInCart != null}">
+            <div>
+                TOTAL
+            </div>
+            <div  th:text="${total} + ' zł'"/>
         </div>
-        <div th:if="${productsInCart.size() == 0}">
+        <div  th:if="${productsInCart != null && productsInCart.size() > 0}" >
             No products added yet. Check out our cosmetics <a href="/cosmetics">here</a>
         </div>
-    </div>
 </div>
 
 <th:block th:replace="partials/script-links"></th:block>

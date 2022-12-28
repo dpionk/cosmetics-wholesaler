@@ -26,7 +26,12 @@
             </div>
                 <div class="buttons">
                     <div class="price text-secondary">ACTIONS</div>
-                    <a>+🛒</a>
+                    <div th:if="${!doesCartExist}">
+                        <a href="/cart">+🛒</a>
+                    </div >
+                    <form th:if="${doesCartExist}" action="#" th:action="@{'/cart/add/' + ${cosmetic.getId()}}" th:method="post">
+                                <input type="submit" value="+🛒" style="background: none; border:none;"/>
+                    </form>
             <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}" th:if="${user.getIs_admin()}">
                 🖊️
                 </a>
