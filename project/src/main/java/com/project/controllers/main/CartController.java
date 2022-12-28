@@ -2,9 +2,12 @@ package com.project.controllers.main;
 
 import com.project.domains.Cart;
 import com.project.domains.Cosmetic;
+import com.project.domains.User;
 import com.project.repositories.CartRepository;
 import com.project.repositories.CosmeticRepository;
+import com.project.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +22,47 @@ import javax.validation.Valid;
 public class CartController {
 
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     CosmeticRepository cosmeticRepository;
 
     @Autowired
     CartRepository cartRepository;
 
-    @GetMapping("/cart/{id}")
+    @GetMapping("/cart")
     public String cartPage(Model model) {
+        var auth =  SecurityContextHolder.getContext().getAuthentication();
+        var currentUserUserName = auth.getName();
+        User currentUser = userRepository.getAllUsersWithUsername(currentUserUserName).get(0);
+
+        var cart = cartRepository.findCartByUser(currentUser);
+
+        if (cart.size() != 0) {
+            model.addAttribute("cart", cart);
+
+            var productsInCart = cosmeticRepository.findCosmeticsByCart(cart.get(0));
+            model.addAttribute("productsInCart", productsInCart);
+            model.addAttribute("doesCartExist", true);
+        } else {
+            Cart newCart = new Cart();
+            model.addAttribute("cart", newCart);
+            model.addAttribute("doesCartExist", false);
+        }
+
+        model.addAttribute("currentUser", currentUser);
         return "/cart/cart";
+    }
+
+    @PostMapping("/createCart/{id}")
+    public String createCartForUser(@Valid Cart cart, @PathVariable Long id, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Not valid data passed when trying to add  cart! Try again.");
+        }
+        cartRepository.save(cart);
+        redirectAttributes.addFlashAttribute("success", "Succesfully created cart");
+
+        return "redirect:/cart/";
     }
 
     @PostMapping("/cart/{id}")
@@ -39,7 +75,7 @@ public class CartController {
         cartRepository.findById(id).get().addCosmeticToCart(cosmetic);
         redirectAttributes.addFlashAttribute("success", "Succesfully added cosmetic to cart");
 
-        return "redirect:/cart/" + id.toString();
+        return "redirect:/cart/";
     }
 
     @GetMapping("/cart/{id}/delete")

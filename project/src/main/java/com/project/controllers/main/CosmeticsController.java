@@ -2,10 +2,13 @@ package com.project.controllers.main;
 
 import com.project.domains.Category;
 import com.project.domains.Cosmetic;
+import com.project.domains.User;
 import com.project.exception.ResourceNotFoundException;
 import com.project.repositories.CategoryRepository;
 import com.project.repositories.CosmeticRepository;
+import com.project.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,9 @@ import javax.validation.Valid;
 
 @Controller
 public class CosmeticsController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -46,10 +52,16 @@ public class CosmeticsController {
 
     @GetMapping("/cosmetics/{id}")
     public String cosmeticDetailsPage(@PathVariable Long id, Model model) {
+
+        var auth =  SecurityContextHolder.getContext().getAuthentication();
+        var currentUserUserName = auth.getName();
+        User currentUser = userRepository.getAllUsersWithUsername(currentUserUserName).get(0);
+
         var cosmetic = cosmeticRepository.findById(id);
 
         if (cosmetic.isPresent()) {
             model.addAttribute("cosmetic", cosmetic.get());
+            model.addAttribute("user", currentUser);
         } else {
             throw new ResourceNotFoundException("cosmetic", "cosmeticId", id);
         }

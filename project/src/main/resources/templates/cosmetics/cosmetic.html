@@ -26,10 +26,11 @@
             </div>
                 <div class="buttons">
                     <div class="price text-secondary">ACTIONS</div>
-            <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}"/>
+                    <a>+🛒</a>
+            <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/edit'}" th:if="${user.getIs_admin()}">
                 🖊️
-            <a>+🛒</a>
-                <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/delete'}">🗑️</a>
+                </a>
+                    <a th:href="@{'/cosmetics/' + ${cosmetic.getId()} + '/delete'}" th:if="${user.getIs_admin()}">🗑️</a>
                 </div>
             </div>
             </div>

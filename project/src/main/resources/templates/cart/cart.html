@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Your Cart</title>
+    <title>Your cart</title>
+    <th:block th:replace="partials/css-links"></th:block>
 </head>
 <body>
+<div th:replace="partials/alerts"></div>
+<div th:replace="partials/navbar"/>
+<div class="cosmetics">
+    <div class="page-title">
+        YOUR CART
+    </div>
+    <div th:if="${!doesCartExist}">
+        You didn't initialize your cart yet. If you want to do it,
+        <form  method="POST" th:action="'/createCart/' + ${currentUser.getId()}" th:object="${cart}">
+            <select style="display:none" th:field="*{user}">
+                <option  th:value="${currentUser.getId()}"/>
+            </select>
+            <input type="submit" value="click here"/>
+        </form>
+    </div >
+    <div class="list-group" th:if="${doesCartExist}">
+        <div th:each="cosmetic: ${productsInCart}"  class="list-group-item edit-delete" >
+            <a  th:text="${cosmetic.getName()}"  th:href="@{'/cosmetics/' + ${cosmetic.getId()}}"/>
+            <div class="info">
+                <div th:text="${cosmetic.getPrice()} + ' zł'">
+                </div>
+                <button class="btn">🗑️</button>
+            </div>
+        </div>
+        <div th:if="${productsInCart.size() > 0}">
+            TOTAL
+        </div>
+        <div th:if="${productsInCart.size() == 0}">
+            No products added yet. Check out our cosmetics <a href="/cosmetics">here</a>
+        </div>
+    </div>
+</div>
 
+<th:block th:replace="partials/script-links"></th:block>
 </body>
 </html>
