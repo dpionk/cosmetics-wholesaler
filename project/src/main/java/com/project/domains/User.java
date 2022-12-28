@@ -2,6 +2,7 @@ package com.project.domains;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -16,16 +17,17 @@ User {
 
     @Column(name = "username")
     @NotNull(message = "Username is required")
-    @Size(min = 2)
+    @Size(min = 2, max = 20)
     private String username;
 
     @Column(name = "password")
     @NotNull(message = "Password is required")
-    @Size(min = 8)
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password must contain at least one letter and one number")
+    @Size(min = 8, message = "Password must have at least eight characters")
     private String password;
 
     @Column(name = "is_admin")
-    @NotNull
+    @NotNull(message = "Information if user is an admin is required")
     private Boolean is_admin = false;
 
 

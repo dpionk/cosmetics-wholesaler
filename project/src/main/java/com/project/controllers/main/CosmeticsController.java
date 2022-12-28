@@ -34,7 +34,7 @@ public class CosmeticsController {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("error",
                     "Not valid data passed when trying to add new cosmetic! Try again.");
-            return "cosmetics/add";
+            return "cosmetics/addCosmetic";
         }
 
         cosmeticRepository.save(cosmetic);

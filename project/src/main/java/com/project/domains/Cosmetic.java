@@ -1,7 +1,9 @@
 package com.project.domains;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -15,17 +17,18 @@ public class Cosmetic {
     private Long id;
 
     @Column(name = "image_url")
+    @Pattern( regexp = "(https?:\\/\\/.*\\.(?:png|jpg))", message = "Invalid image URL")
     private String image_url;
 
     @Column(name = "cosmetic_name")
     @NotNull(message = "Name is required")
-    @Size(min = 2)
+    @Size(min = 2, max = 100)
     private String name;
 
     @Column(name = "cosmetic_price")
     @NotNull(message = "Price is required")
+    @DecimalMin("1")
     private Float price;
-
 
     @ManyToOne
     Category category;

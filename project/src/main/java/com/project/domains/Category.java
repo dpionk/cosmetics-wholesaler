@@ -16,7 +16,7 @@ public class Category {
 
     @Column(name = "category_name")
     @NotNull(message = "Name is required")
-    @Size(min = 2)
+    @Size(min = 2, max = 10)
     private String name;
 
 
