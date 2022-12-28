@@ -46,7 +46,7 @@
             </div>
             <div  th:text="${total} + ' zł'"/>
         </div>
-        <div  th:if="${productsInCart != null && productsInCart.size() > 0}" >
+        <div  th:if="${productsInCart != null && productsInCart.size() == 0}" >
             No products added yet. Check out our cosmetics <a href="/cosmetics">here</a>
         </div>
 </div>
