@@ -43,6 +43,11 @@ full-width {
     align-items: center;
 }
 
+.filter-list {
+    width:100%;
+    display: flex;
+}
+
 .page-title {
     font-size: xx-large;
     font-weight: bold;
@@ -63,6 +68,7 @@ full-width {
 }
 
 .list-group-item {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,6 +79,13 @@ full-width {
     color: #579BB1;
 }
 
+.sort-list > a {
+    border:10px solid transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 /* COSMETIC */
 
 .buttons {
@@ -123,8 +136,30 @@ img {
     justify-content: center;
 }
 
+.filter-cosmetics {
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
+.filter-title {
+    color:gray;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
 /* FORM */
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    width:100%;
+
+}
 
 .form-container {
     display: flex;

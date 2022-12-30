@@ -11,6 +11,7 @@ import com.project.repositories.CosmeticRepository;
 import com.project.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,8 +36,32 @@ public class CosmeticsController {
     private CosmeticRepository cosmeticRepository;
 
     @GetMapping("/cosmetics")
-    public String cosmeticsListPage(Model model) {
-        model.addAttribute("cosmetics", cosmeticRepository.findAll());
+    public String cosmeticsListPage(Model model, @RequestParam(required = false) String name, @RequestParam(required = false) Long category_id, @RequestParam(required = false) String sortType) {
+
+        model.addAttribute("categories", categoryRepository.findAll());
+
+        if (sortType != null) {
+            switch(sortType) {
+                case "nameasc":
+                    model.addAttribute("cosmetics", cosmeticRepository.findCosmeticsByNameASC());
+                    break;
+                case "namedesc":
+                    model.addAttribute("cosmetics", cosmeticRepository.findCosmeticsByNameDESC());
+                    break;
+                case "priceasc":
+                    model.addAttribute("cosmetics", cosmeticRepository.findCosmeticsByPriceASC());
+                    break;
+                case "pricedesc":
+                    model.addAttribute("cosmetics", cosmeticRepository.findCosmeticsByPriceDESC());
+                    break;
+                default:
+                    model.addAttribute("cosmetics", cosmeticRepository.findAll());
+            }
+        } else {
+            Iterable<Cosmetic> filteredCosmetics = filterCosmetics(name, category_id);
+            model.addAttribute("cosmetics", filteredCosmetics);
+        }
+
         return "/cosmetics/cosmeticsList";
     }
 
@@ -143,5 +168,18 @@ public class CosmeticsController {
         cosmeticFrom.setPrice(cosmeticTo.getPrice());
         cosmeticFrom.setCategory(cosmeticTo.getCategory());
         cosmeticFrom.setImage_url(cosmeticTo.getImage_url());
+    }
+
+    private Iterable<Cosmetic> filterCosmetics(String name, Long category_id) {
+
+        if (name == null && category_id == null) {
+            return cosmeticRepository.findAll();
+        } else if (name == null) {
+            Category categoryToFilter = categoryRepository.findById(category_id).get();
+            return cosmeticRepository.findCosmeticsByCategory(categoryToFilter);
+        }
+
+        return cosmeticRepository.findCosmeticsByName(name);
+
     }
 }

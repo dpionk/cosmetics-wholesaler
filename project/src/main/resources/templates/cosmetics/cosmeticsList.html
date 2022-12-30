@@ -12,7 +12,53 @@
     <div class="page-title">
         COSMETICS
     </div>
+    <div class="filter-list">
     <div class="list-group">
+        <div class="list-group-item filter-cosmetics">
+            <div class="filter-title">
+                FILTER
+            </div>
+            <div>
+                <div class="filter">
+                    <div>By cosmetic name</div>
+                    <form th:action="@{/cosmetics}" method="get" class="filter-form">
+                        <div class="form-group">
+                            <input type="text" th:value="${name}" class="form-control" id="name"
+                                   name="name">
+                            <input type="submit" class="btn" value="Search">
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <div>By cosmetic category</div>
+                    <form th:action="@{/cosmetics}" method="get" class="filter-form">
+                        <div class="form-group">
+                            <select class="custom-select" id="inputGroupSelect01" name="category_id">
+                                <option value="" label="Choose category"/>
+                                <option th:each="category : ${categories}" th:text="${category.getName()}" th:value="${category.getId()}"/>
+                            </select>
+                            <input type="submit" class="btn" value="Search">
+                        </div>
+                    </form>
+                 </div>
+            </div>
+            <a href="/cosmetics"><button class="btn">Clear filters</button></a>
+        </div>
+        <div class="list-group-item filter-cosmetics">
+            <div class="filter-title">
+                SORT
+            </div>
+            <div class="sort-list">
+                <a href="/cosmetics"><button class="btn">Default</button></a>
+                <a href="/cosmetics?sortType=nameasc"><button class="btn">By cosmetic name (ascending)</button></a>
+                <a href="/cosmetics?sortType=namedesc"><button class="btn">By cosmetic name (descending)</button></a>
+                <a href="/cosmetics?sortType=priceasc"><button class="btn">By cosmetic price (ascending)</button></a>
+                <a href="/cosmetics?sortType=pricedesc"><button class="btn">By cosmetic price (descending)</button></a>
+            </div>
+            </div>
+    </div>
+    <div class="list-group">
+        <div th:if="${cosmetics.size() == 0}" class="list-group-item">No data found</div>
         <div th:each="cosmetic: ${cosmetics}"  class="list-group-item edit-delete" >
             <a  th:text="${cosmetic.getName()}"  th:href="@{'/cosmetics/' + ${cosmetic.getId()}}"/>
             <div class="info">
@@ -20,8 +66,8 @@
                 </div>
             </div>
         </div>
-
     </div>
+</div>
 </div>
 
 <th:block th:replace="partials/script-links"></th:block>

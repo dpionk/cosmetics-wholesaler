@@ -18,7 +18,19 @@ public interface CosmeticRepository extends CrudRepository<Cosmetic, Long> {
     @Query("SELECT c FROM Cosmetic c WHERE c.category =:category")
     List<Cosmetic> findCosmeticsByCategory(@Param("category") Category category);
 
-    @Query("SELECT c FROM Cosmetic c join c.carts carts where carts =:cart ")
+    @Query("SELECT c FROM Cosmetic c JOIN c.carts carts WHERE carts =:cart ")
     List<Cosmetic> findCosmeticsByCart(@Param("cart") Cart cart );
+
+    @Query("SELECT c FROM Cosmetic c  ORDER BY c.name DESC")
+    List<Cosmetic> findCosmeticsByNameDESC();
+
+    @Query("SELECT c FROM Cosmetic c  ORDER BY c.name ASC")
+    List<Cosmetic> findCosmeticsByNameASC();
+
+    @Query("SELECT c FROM Cosmetic c  ORDER BY c.price DESC")
+    List<Cosmetic> findCosmeticsByPriceDESC();
+
+    @Query("SELECT c FROM Cosmetic c  ORDER BY c.price ASC")
+    List<Cosmetic> findCosmeticsByPriceASC();
 
 }
