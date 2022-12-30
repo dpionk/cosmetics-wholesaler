@@ -54,13 +54,13 @@ public class CartController {
                     productsInCartWithQuantity.put(cosmetic, 1);
                 }
 
-                total += Math.round(cosmetic.getPrice() * 100.0) / 100.0;
+                total += cosmetic.getPrice();
             }
 
 
             model.addAttribute("productsInCart", productsInCartWithQuantity);
             model.addAttribute("doesCartExist", true);
-            model.addAttribute("total", total);
+            model.addAttribute("total", Math.round(total  * 100.0) / 100.0);
         } else {
             Cart newCart = new Cart();
             model.addAttribute("cart", newCart);

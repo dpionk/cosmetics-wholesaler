@@ -36,7 +36,7 @@
                         <input type="submit" value="+" style="background: none; border:none;"/>
                     </form>
                 </div>
-                <div th:text=" ${cosmetic.value} * ${cosmetic.key.getPrice()} + 'zł'"/>
+                <div th:text="${(cosmetic.value * cosmetic.key.getPrice()).floatValue()} + 'zł'"/>
             </div>
         </div>
     </div>

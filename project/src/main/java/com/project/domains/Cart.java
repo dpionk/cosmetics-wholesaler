@@ -51,7 +51,7 @@ public class Cart {
     }
 
     public List<Cosmetic> getCosmeticsInCart() {
-        return cosmeticsInCart;
+        return this.cosmeticsInCart;
     }
 
 

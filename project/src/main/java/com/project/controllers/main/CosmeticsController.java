@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class CosmeticsController {
@@ -58,9 +61,12 @@ public class CosmeticsController {
                     model.addAttribute("cosmetics", cosmeticRepository.findAll());
             }
         } else {
+
             Iterable<Cosmetic> filteredCosmetics = filterCosmetics(name, category_id);
             model.addAttribute("cosmetics", filteredCosmetics);
         }
+
+
 
         return "/cosmetics/cosmeticsList";
     }
@@ -152,6 +158,15 @@ public class CosmeticsController {
         public String  deleteCosmetic(@PathVariable Long id, RedirectAttributes redirectAttributes) {
             var cosmetic = cosmeticRepository.findById(id);
             if (cosmetic.isPresent()) {
+                List<Cart> cartsWhereTheProductIs = cosmeticRepository.findCosmeticsInCart(cosmetic.get().getId());
+
+                for (Iterator<Cart> cartIterator = cartsWhereTheProductIs.iterator(); cartIterator.hasNext();) {
+                    Cart currentCart = cartIterator.next();
+
+                    currentCart.getCosmeticsInCart().removeIf(currentCosmetic -> currentCosmetic.getId() == cosmetic.get().getId());
+                    cartRepository.save(currentCart);
+                }
+
                 cosmeticRepository.delete(cosmetic.get());
                 redirectAttributes.addFlashAttribute("success", String.format(
                         "Cosmetic with ID %d has been successfully deleted.",
